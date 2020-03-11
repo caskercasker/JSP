@@ -3,7 +3,8 @@
     pageEncoding="UTF-8" import="java.util.*, com.sist.dao.*"%>
 <%
 	BoardDAO dao = new BoardDAO();
-	//사용자가 요청한 페이지를 받는다. 
+	
+	//사용자가 요청한 페이지 번호 를 받는다. 
 	String strPage =request.getParameter("page");
 	if(strPage==null){
 		strPage = "1";
@@ -15,7 +16,8 @@
 	int totalpage = (int)(Math.ceil(count/10.0));
 	count = count - ((curpage*10)-10);
 	
-	//배열에 row값 자체는 HTML에서응 의미가 없기에 count 로 출력을 함
+	//배열에 row값은  HTML출력 순서 
+	//count 로 출력을 함 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -59,6 +61,7 @@ h2 {
 				<td width=10% class="text-center"><%= count-- %></td>
 				<td width=45% class="text-left">
 				<%
+					
 					if(vo.getGroup_tab()>0){
 						for(int j=0; j<vo.getGroup_tab(); j++){
 							out.println("&nbsp;&nbsp;");	
@@ -68,13 +71,25 @@ h2 {
 				<% 
 					}
 				%>
-				<%= vo.getSubject() %>
+				<%
+					//삭제 게시물에 new 버튼 예외처리 
+					String msg="관리자가 삭제한 게시물 입니다.";
+	
+					if(msg.equals(vo.getSubject())){
+				
+				%>
+					<span style="color:#99999"><%=vo.getSubject() %></span>
+				<% 
+					}else{
+				%>
+					<a href="detail.jsp?no=<%=vo.getNo()%>&page=<%=curpage%>"><%=vo.getSubject() %></a>
 				<%
 					String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 					if(today.equals(vo.getRegdate().toString())){
 				%>	
 						<span><img src="new.gif"></span>
 				<% 
+						}
 					}
 				%>
 				</td>
@@ -92,7 +107,7 @@ h2 {
 						<a href="list.jsp?page=<%=curpage>1?curpage-1:curpage %>" class="btn btn-sm btn-default">이전</a>
 						<%=curpage %> page / <%=totalpage %> pages
 						<a href="list.jsp?page=<%=curpage<totalpage ?curpage+1:curpage %>" class="btn btn-sm btn-default">이전</a>
-						</td>
+					</td>
 				</tr>
 			</table>
 			

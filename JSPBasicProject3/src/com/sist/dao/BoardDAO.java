@@ -7,9 +7,6 @@ import lombok.Setter;
 import java.sql.*;
 
 public class BoardDAO {
-	@Getter
-	@Setter
-	
 	private Connection conn;
 	private PreparedStatement ps;
 	private final String URL = "jdbc:oracle:thin:@localhost:1521:XE";
@@ -129,4 +126,264 @@ public class BoardDAO {
 			disConnection();
 		}
 	}
+	//내용보기(조회수 증가) (type=0 = > 수정하기(데이터 읽기) type=1)
+	public BoardVO boardDetailData (int no, int type){
+		BoardVO vo = new BoardVO();
+		try {
+			getConnection();
+			String sql="";
+			
+			// 상세보기 데이터 호출
+			if(type==0){ // 조회수 증가
+				sql="UPDATE replyBoard SET "
+					+"hit = hit +1 "
+					+"WHERE no=?";
+				ps=conn.prepareStatement(sql);
+				ps.setInt(1, no);
+				ps.executeUpdate();
+			}
+			//상세 보기 및 수정하기 동시 처리
+			sql = "SELECT no,name,subject,content,regdate,hit "
+					+"FROM replyBoard "
+					+"WHERE no=?";
+			ps=conn.prepareStatement(sql);
+			ps.setInt(1, no);
+			
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			
+			//VO에 값을 저장
+			vo.setNo(rs.getInt(1));;
+			vo.setName(rs.getString(2));
+			vo.setSubject(rs.getString(3));
+			vo.setContent(rs.getString(4));
+			vo.setRegdate(rs.getDate(5));
+			vo.setHit(rs.getInt(6));
+			
+			rs.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}finally{
+			disConnection();
+		}
+		
+		return vo;
+	}
+	//수정
+	
+	public boolean boardUpdate(BoardVO vo){
+		
+		boolean bCheck=false;
+		try{
+			getConnection();
+			String sql="SELECT pwd FROM replyBoard "
+					+"WHERE no=?";
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, vo.getNo());
+			
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			String db_pwd = rs.getString(1);
+			rs.close();
+	
+			if(db_pwd.equals(vo.getPwd())){
+				bCheck = true;
+				sql = "UPDATE replyBoard SET "
+						+"name=?, subject=?,content=? "
+						+"WHERE no=?";
+				ps=conn.prepareStatement(sql);
+				ps.setString(1, vo.getName());
+				ps.setString(2, vo.getSubject());
+				ps.setString(3, vo.getContent());
+				ps.setInt(4, vo.getNo());
+				
+				//실행
+				ps.executeUpdate(); //commit
+			}else{
+				bCheck=false;
+			}
+		
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}finally{
+			disConnection();
+		}
+		return bCheck;
+	}
+	//답변하기
+	public void replyInsert(int pno, BoardVO vo){
+		try{
+			getConnection();
+			
+			//Autocommit 취소
+			conn.setAutoCommit(false);
+			
+			//group_id, group_step, group_tab 가져오기
+			String sql ="SELECT group_id,group_step,group_tab "
+						+"FROM replyBoard "
+						+"WHERE no=?";
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, pno);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			
+			int gi = rs.getInt(1);
+			int gs = rs.getInt(2);
+			int gt = rs.getInt(3);
+			
+			rs.close();
+			
+			//답변형 게시판의 핵심 쿼리
+			/*
+			 * 				gi		gs		gt		depth(답변의 수)
+			 * AAAA			1		0		0		  2
+			 * 	-BBBB		1		1		1		  1	
+			 * 	 -CCCC		1		2		2         1
+			 * 	  -DDDD		1		3		3         0
+			 *  -EEEE		1		1		1         0
+			 * 
+			 * 
+			 * 	//group_id 로 묶고 group_stepASC 로 출력해 놓음
+			 * 	오라클 정렬 기준( 같은 번호면 먼저 입력된것 부터 출력) => EEEE 가 date기준 최상위로 올라옴 
+			 * 
+							gi		gs		gt
+			 * AAAA			1		0		0
+			 *  -EEEE		1		1		1			<- 위치 변경 (최신순) 
+			 * 	-BBBB		1		1+1		1
+			 * 	 -CCCC		1		2+1		2
+			 * 	  -DDDD		1		3+1		3
+			 */
+
+			sql="UPDATE replyBoard SET "
+				+"group_step=group_step+1 "
+				+"WHERE group_id=? ANd group_step>?";
+			
+			//같은 group 에서 group_step이 이 큰것들을 모두 1씩 더한다. 
+			
+			ps=conn.prepareStatement(sql);
+			ps.setInt(1, gi);
+			ps.setInt(2, gs);
+			ps.executeUpdate();
+			
+			// 데이터 추가
+			sql="INSERT into replyBoard(no,name,subject,content,pwd,group_id,group_step,group_tab,root) VALUES("
+				+"rb_no_seq.nextval,?,?,?,?,?,?,?,?)";
+			ps=conn.prepareStatement(sql);
+			ps.setString(1, vo.getName());
+			ps.setString(2, vo.getSubject());
+			ps.setString(3, vo.getContent());
+			ps.setString(4, vo.getPwd());
+			
+			ps.setInt(5, gi);
+			ps.setInt(6, gs+1);
+			ps.setInt(7, gt+1);
+			ps.setInt(8, pno);
+			
+			ps.executeUpdate();
+			
+			// depth 증가
+			sql="UPDATE replyBoard SET "
+				+"depth=depth+1 "
+				+"WHERE no=?";
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, pno);
+			ps.executeUpdate();
+						
+			// 작업의 단위가 SELECT,UPDATE,INSERT, 가 executeupdate(commit 이 자동으로생성되기에)
+			// TRANSACTION 으로 작업을 크게 묶어서 관리.
+			
+			conn.commit(); 
+			//유효성 검사후에 commit 을 해야함 
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}finally{
+			try {
+				conn.setAutoCommit(true);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			disConnection();
+		}
+	}
+	
+	//**********************************삭제
+	public int boardDelete(int no,String pwd){
+		
+		//비밀 번호 확인 flag
+		int result=0;
+		
+		try {
+			getConnection();
+			
+			//비밀번호 검색
+						
+			String sql="SELECT pwd FROM replyBoard "
+					+"WHERE no=?";
+			ps=conn.prepareStatement(sql);
+			ps.setInt(1, no);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			String db_pwd=rs.getString(1);
+			rs.close();
+			
+			if(db_pwd.equals(pwd)){
+				result=1;
+				sql="SELECT root,depth FROM replyBoard "
+						+"WHERE no=?";
+				ps=conn.prepareStatement(sql);
+				ps.setInt(1, no);
+				rs = ps.executeQuery();
+				rs.next();
+				
+				int root = rs.getInt(1);
+				int depth = rs.getInt(2);
+				
+				rs.close();
+				
+				//depth가 0일 경우 삭제 가능
+				if(depth==0){
+					sql="DELETE FROM replyBoard "
+							+"WHERE no=?";
+					ps=conn.prepareStatement(sql);
+					ps.setInt(1, no);
+					ps.executeUpdate();
+				}else{
+					String msg="관리자가 삭제한 게시물 입니다.";
+					sql="UPDATE replyBoard set " 
+						+"subject=?, content=? "
+						+"WHERE no=?";
+					ps=conn.prepareStatement(sql);
+					ps.setString(1, msg);
+					ps.setString(2, msg);
+					ps.setInt(3, no);
+					ps.executeUpdate();
+					
+					sql="UPDATE replyBoard SET "
+						+"depth=depth-1 "
+						+"WHERE no=?";
+					ps=conn.prepareStatement(sql);
+					ps.setInt(1, root);
+					ps.executeUpdate();
+				}
+			}else{
+				result=0;
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}finally{
+			disConnection();
+		}
+		return result;
+	}
+	
+	//request,response
 }
