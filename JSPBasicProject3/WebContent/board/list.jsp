@@ -18,6 +18,11 @@
 	
 	//배열에 row값은  HTML출력 순서 
 	//count 로 출력을 함 
+	
+	for(BoardVO vo2:list){
+		
+		System.out.println(vo2.getSubject());
+	}
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>

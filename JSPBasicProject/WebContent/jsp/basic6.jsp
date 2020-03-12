@@ -47,5 +47,3 @@
 				request.setAttribute("no",10)   ==> request.getParameter("page")
 													request.getParameter("no")		---> 
 
-
- -->

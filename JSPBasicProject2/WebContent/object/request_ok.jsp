@@ -40,7 +40,7 @@
       }catch(Exception ex)
        {
      %>
-            <span style="color:red">취미가 없습니다</span>
+            <li style="color:red">취미가 없습니다</li>
      <%  
        }
      %>
