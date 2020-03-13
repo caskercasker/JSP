@@ -3,7 +3,7 @@
 <%
 	//게시물 번호, 게시물이 있던 페이지 값 저장 하여 
 	//목록으로 돌아갈시 눌렀던 페이지로 돌아간다. 
-	
+	int a=10/0;
 	String no = request.getParameter("no");
 	String strPage = request.getParameter("page");
 	// no=> DAO 전송
