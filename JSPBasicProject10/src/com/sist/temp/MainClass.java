@@ -11,7 +11,7 @@ public class MainClass {
 			System.out.println("입력:");
 			String str=scan.next();			
 			
-			Class acls = Class.forName("com.sist.temp.A");	//리플렉션 // 메모리 할당 
+			Class<?> acls = Class.forName("com.sist.temp.A");	//리플렉션 // 메모리 할당 
 			//패키지 명으로 부터 출발 class 까지 
 //			A a = (A)acls.newInstance();
 //			a.display();

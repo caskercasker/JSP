@@ -24,7 +24,7 @@
 <body>
 	<h1>전송받은 데이터 출력</h1>
 	이름 : <%=mb.getName() %><br>
-	변경 이름 : <jsp:getProperty property="name" name="mb"/></br>
+	변경 이름 : <jsp:getProperty property="name" name="mb"/><br>
 	성별 : <%=mb.getSex() %><br>
 	주소 : <%=mb.getAddr() %><br>
 	전화번호 : <%=mb.getTel() %><br>
