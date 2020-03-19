@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import="java.util.*"%>
 <!-- 
-		sessioan : 서버에서 사용자의 일부 정보를 저장
+		session : 서버에서 사용자의 일부 정보를 저장
 		=> HTTPSession (각 클라이언트 마다 1개 배정)  ==> request 를 이용해서 session 을 얻어온다.
 		=> 관련된 메소드 (기능)
 			1) 저장					=======> setAttribute(key,값)
@@ -94,7 +94,7 @@ function change() {
 </head>
 <body>
 	<div class="container">
-		<h1 class="text-center"><%=sy %>년<%=sm %>월 일정</h1>
+		<h1 class="text-center"><%=session.getAttribute("name")%>(<%=session.getAttribute("id")%>)&nbsp;<%=sy %>년<%=sm %>월 일정</h1>
 		<div class="row">
 			<form method="post" name="frm" action="diary.jsp">
 				<table class="table">
@@ -174,7 +174,8 @@ function change() {
 						if(i==day)
 							back="success";
 				%>
-					<td height="100" class="text-left <%=back %>" width=100 valign="top"><h4><font color="<%=color%>"><%=i %></font></h4></td>	
+					<td height="100" class="text-left <%=back %>" width=100 valign="top"><h4><font color="<%=color%>">
+					<a href="diary_insert.jsp"><%=i %></a></font></h4></td>	
 				<% 		
 						week++;
 						if(week>6){
@@ -194,7 +195,6 @@ function change() {
 function change() {
  	var f=document.frm;
 	f.submit(); 	
-
 }
 </script>
 </body>
