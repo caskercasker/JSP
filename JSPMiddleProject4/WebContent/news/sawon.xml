@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+	DOM
+	= 자바에서 파싱 
+	= DOM vs SAX(Spring,MyBatix)
+	  === 	 === 읽기 전용 (수정,삭제,추가 불가능)
+	DOM(메모리에 저장 => 제어 (수정,삭제,추가)) 도큐먼트 노출로 인해 보안성이 좋지 않음.
+ -->
+<sawon> <!-- 데이터 베이스 테이블 역할  -->
+	<list> <!-- 데이터베이스 ROW -->
+		<name>홍길동</name> <!-- 데에터 베이스 컬럼 -->
+		<addr>서울</addr>
+		<sex>남자</sex>
+	</list>
+	<list>
+		<name>심청이</name>
+		<addr>경기</addr>
+		<sex>남자</sex>
+	</list>
+	<list>
+		<name>강감찬</name>
+		<addr>분당</addr>
+		<sex>남자</sex>
+	</list>
+</sawon>

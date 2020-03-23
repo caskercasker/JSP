@@ -18,11 +18,11 @@
   --> 
  <mapper namespace="com.sist.dao.movie-mapper">
  	<!-- XML 문장 저장 -->
-<!--  	<select id="movieAllData" resultType="MovieVO"> 
+ 	<select id="movieAllData" resultType="MovieVO"> 
  		SELECT mno,title,poster
  		FROM movie
  		WHERE type=1	
- 	</select> -->
+ 	</select>
 <!--    	<select id="musicAllData" resultType="MusicVO"> 
  		SELECT mno,title,poster
 		FROM music_genie

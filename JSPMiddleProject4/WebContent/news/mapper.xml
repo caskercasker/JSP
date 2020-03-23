@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper>
+<!-- 
+	 (cache-ref | cache | resultMap* | parameterMap* | sql* | insert* | update* | delete* | select*)+
+ -->	
+<!-- 
+	(include | trim | where | set | foreach | choose | if | bind)*
+ -->
+	<select id="" resultType="int" parameterType="Map">   <!-- String,VO,Map -->
+	<!-- 매개변수도 2개이상이 들어갈 경우는 VO, VO가 값이 없을 경우(start,end => rowpage 기준으로 생성 되기 때문에 Map" --> 
+		SELECT a,b,c,d, FROM member where id=? AND pwd=?
+		WHERE num BETWEEN ? AND ? 
+	</select>
+	<insert id="" parameterType=""></insert> 	<!-- insert는 return type이 없다.  -->
+</mapper>

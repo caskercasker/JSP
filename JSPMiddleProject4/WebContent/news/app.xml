@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans SYSTEM 'app.dtd'>
+
+<beans>
+	<bean class="com.sist.dao.BoardDAO" id="adao"/>
+	<bean class="com.sist.dao.BoardDAO" id="bdao"/>
+</beans>
+
+<!-- public 배포한 부분, 공개를 안하고 Private인 경우(SYSTEM) -->

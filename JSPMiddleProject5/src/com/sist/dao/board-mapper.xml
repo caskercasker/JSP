@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sist.dao.board-mapper">
+	<!-- 
+		목록
+			public boardVO vo = new boardVO();
+				vo.boardListData(Map map)
+			
+			public int = dao.movieTotalPage()
+			
+			resultType = "int"
+			
+			참조로 연결 하기 때문에 (생성하고 관리) 데이터 타입으로 접근 혹은 class이름으로 접근 가능)
+			
+			Map map = new HashMap();
+			map.put("start", 1);
+			map.put("end", 10);
+			
+			
+			해당 DAO 에서 ps.setInt 된 것을 
+			map.get("start")
+			map.get("end) 형태로 받아온다. 
+			
+			#{start}	==> map.get("start")
+			#{end}		==> map.get("end")
+			===== key
+			
+			{}get method 호출 request의 경우에도 사용할때 객체가 자동으로 생성된것을 HTML 에서ㅓ 볼 때 활용 할수 있었슴. 
+			public List<BoardVO> boardListData(Map map)
+				=> selectList()   ==> DAO list 를 보낸다. 
+	 -->
+	<select id="boardListData" resultType="BoardVO" parameterType="java.util.Map">
+	<!--  VO에 "없는" 매개변수일 경우 Map을 활용한다.  -->
+		SELECT no,subject,name,regdate,hit,num
+		FROM (SELECT no,subject,name,regdate,hit,rownum as num
+		FROM (SELECT no,subject,name,regdate,hit FROM board ORDER BY no DESC))
+		WHERE num BETWEEN #{start} and # {end}
+	</select>
+	
+	<!-- 
+		public BoardVO boardDetailData(int no){
+		
+		}
+		==> select one
+	 -->
+	
+	<select id="boardDetailData" resultType="BoardVO" parameterType="int">
+		SELECT * FROM board 
+		WHERE no=#{no} 
+	</select>
+	
+	<!-- 
+		public void boardInsert(boardVO vo){
+		
+		}
+	 -->
+	<!-- <insert id="boardInsert" parameterType="BoardVO"></insert>
+ -->	<!-- 
+		public void boardUpdate(BoardVO vo)
+	 -->
+	<!-- <update id="boardUpdate" parameterType="BoardVO"></update>
+	 --><!-- 
+	
+	 -->
+	<!-- <delete id="boardDelte" parameterType="int"></delete> -->
+</mapper>

@@ -24,7 +24,7 @@ public class MovieDAO {
 	}
 	
 	public static List<MusicVO> musicAllData(){
-		//파싱된 ssf 에서 id를 읽는다. 
+		//파싱된 ssf 에서 id를 읽는다.  
 		return ssf.openSession().selectList("musicAllData");
 	}
 

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	<beans>
+		<bean id="a" class="" jsp="" test="A"/>
+		<bean id="b" class="" test="A"/>
+		<bean id="c" class="" jsp=""/>
+		<bean id="d" class="" test="A"/>
+		<bean id="e" class="" test="B"/>
+	</beans>
+	
+	<태그>
+		<태그></태그>		<!ELEMENT 태그 (태그명)>
+	</태그>
+	<태그>문자열</태그> 	<!ELEMENT 태그 (#PCDATA)>
+	
+	<태그/>				<!ELEMENT 태그 EMPTY> ==> 값(속성을)
+
+
+	ID			=> UNIQUE
+	CDATA		=> 문자열 (공백을 허용하는 문자열)
+	NOTATION 	=> 문자열  (공백을 허용하지 않는 문자열)
+	<a href="/aaa.jsp" class="btn btn-sm btn-primary">
+		=====NOTATION			======== CDATA
+		
+	IDREF => 참조..(등록하는 ID 값만 활용 가능하다)
+	//////////////////////////////////////////////////// 꼭 기억
+	(DB의 Foregin KEY)
+	REF, REFS
+	
+	////////////////////////////////////////////////////
+	옵션
+		#REQUIRED	: NOT NULL
+		#IMPLIED	: 사용을 안할 수도 있다 (OPTIONAL, ?)  NULL 허용	
+		#FIXED		: DEFAULT
+
+-->
+
+<!ELEMENT beans (bean+)> 		<!-- beans는 beand 하나 이상 갖는다.-->
+<!ELEMENT bean EMPTY>			<!-- 값은 비어있고 속성으로만 접근한다.--> 
+								<!--PRIMRY KEY (UNIQUE NOTNULL) -->
+
+<!ATTLIST bean id ID #REQUIRED				
+			 class CDATA #REQUIRED
+			 jsp CDATA #IMPLIED
+			 test CDATA #FIXED 'A'>		
+			 

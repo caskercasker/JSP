@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<member>
+	<list>
+		<no>1</no>
+		<name>홍길동</name>
+		<sex>남자</sex>
+		<address>서울</address>
+		<hp>1111-1111</hp>
+	</list>
+</member>
