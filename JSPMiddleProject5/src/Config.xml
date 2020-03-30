@@ -20,7 +20,7 @@
 				
 				getConnection(p.getUrl(),p.getUsername(),p.getPassword()), disConnection()				
 				-->
-				<property name="driver" value="oracle.jdbc.driver.OracleDrvier"/>
+				<property name="driver" value="oracle.jdbc.driver.OracleDriver"/>
 				<property name="url" value="jdbc:oracle:thin:@localhost:1521:XE"/>
 				<property name="username" value="hr"/>
 				<property name="password" value="happy"/>
@@ -36,7 +36,7 @@
 	 	
 	 -->
 	<mappers>
-		<mapper resource="com.sist.dao.board-mapper.xml"/>
+		<mapper resource="com/sist/dao/board-mapper.xml"/>
 		<!-- mapper 는 * 표시 이므로 개체 생성에 제한이 없다.  -->
 	</mappers>
 </configuration>

@@ -32,36 +32,65 @@
 	 -->
 	<select id="boardListData" resultType="BoardVO" parameterType="java.util.Map">
 	<!--  VO에 "없는" 매개변수일 경우 Map을 활용한다.  -->
-		SELECT no,subject,name,regdate,hit,num
+		SELECT no,subject,name,regdate,hit,TO_CHAR(regdate,'YYYY-MM-DD') as dbday,num
 		FROM (SELECT no,subject,name,regdate,hit,rownum as num
 		FROM (SELECT no,subject,name,regdate,hit FROM board ORDER BY no DESC))
-		WHERE num BETWEEN #{start} and # {end}
+		WHERE num BETWEEN #{start} and #{end}
 	</select>
-	
+
 	<!-- 
 		public BoardVO boardDetailData(int no){
 		
 		}
+		Map map = new HashMap();
+		ma.put("boardDetailData","SELECT * FROM board WHERE no=#{no})
 		==> select one
 	 -->
-	
+
+	<select id="boardTotalPage" resultType="int">
+		SELECT CEIL(COUNT(*)/10.0) FROM board
+	</select>
+
+	 <!-- 	 반복되는 SQL문을 작성  -->
+	 <sql id="where-no">
+	 	WHERE no=#{no}
+	 </sql>
 	<select id="boardDetailData" resultType="BoardVO" parameterType="int">
 		SELECT * FROM board 
-		WHERE no=#{no} 
+		<include refid="where-no"/>
 	</select>
+	<update id="hitIncrement" parameterType="int">
+		UPDATE board SET
+		hit=hit+1
+		<include refid="where-no"/>
+	</update>
 	
+	<insert id="boardInsert" parameterType="BoardVO">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			SELECT NVL(MAX(no)+1,1) as no FROM board
+		</selectKey>	
+		<!-- 
+			alias 함수명을 기준으로 실행 된 것들이 COlumn 명으로 100퍼센트 일치 되지 않기 때문에 
+			reg.getInt(1) => rs.getInt("column명")
+			값을 받는 순서는 상관 없고 일치하는 변수명에다가 값을 넣는다.
+		 -->
+		 INSERT INTO board VALUES(#{no},#{name},#{subject},#{content},#{pwd},SYSDATE,0)
+	</insert>
+	
+	<update id="boardUpdate" parameterType="BoardVO">
+		UPDATE board SET 
+		name=#{name},subject=#{subject},content=#{content},pwd=#{pwd}
+		<include refid="where-no"/>
+	</update>
 	<!-- 
 		public void boardInsert(boardVO vo){
 		
 		}
-	 -->
-	<!-- <insert id="boardInsert" parameterType="BoardVO"></insert>
- -->	<!-- 
-		public void boardUpdate(BoardVO vo)
 	 -->
 	<!-- <update id="boardUpdate" parameterType="BoardVO"></update>
 	 --><!-- 
 	
 	 -->
 	<!-- <delete id="boardDelte" parameterType="int"></delete> -->
+
 </mapper>
