@@ -4,7 +4,7 @@ package com.sist.dao;
  * 	NUMBER => �Ǽ�(double), ���� (int)
  *
  */
-public class MovieVo {
+public class MovieVO {
 	private int mno;
 	private String title;
 	private String poster;

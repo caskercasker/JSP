@@ -18,7 +18,7 @@ public class MovieDAO {
 		}
 	}
 	
-	public static List<MovieVo> movieAllData(){
+	public static List<MovieVO> movieAllData(){
 		//파싱된 ssf 에서 id를 읽는다. 
 		return ssf.openSession().selectList("movieAllData");
 	}
