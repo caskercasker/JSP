@@ -50,6 +50,7 @@ public class Controller extends HttpServlet {
 			for(int i=0;i<strCls.length;i++){
 				Class clsName = Class.forName(strCls[i]);
 				Object obj = clsName.newInstance(); //메모리 할당 끝 
+				
 				System.out.println(obj);
 				clsMap.put(strCmd[i], obj);
 			}
