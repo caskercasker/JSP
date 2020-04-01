@@ -14,6 +14,51 @@ import javax.xml.parsers.*;
 import org.w3c.dom.*;
 
 import com.sist.model.Model;
+import com.sist.temp.Controller;
+
+/* 	어노테이션이 올라갈수 있는 자리 
+ * 	@ => TYPE, 클래스 구분 	=======> @Controller, @Repository(DAO), @Componenet, @Service	(메모리 할당 기준)
+ * 								// Model	  //DAO				//일반 클래스	 //Manager (ex> 외부 데이터 가져오기 등등)
+ * 	public class A 
+ * {
+ * 	    @ => FIELD (메모리 주소 전송):===>  @AutoWired(자동 메모리 할당) 	
+ * 		private B b;
+ * 
+ * 		public void setB(@ B b)  ==> PARAMETER => @Resource
+ * 		{
+ * 			this.b = b;
+ * 		}
+ * 		
+ *		@ => CONSTRUCTOR
+ * 		public A()	
+ * 		{
+ * 		
+ * 		}
+ * 		@ => METHOD
+ * 		public void display(){
+ * 		}
+ * 	}
+ * 
+ * 	public class A
+ * {
+ * 		public voi aaa(String a, int b){}
+ * 		public void bbb(String a){}
+ * 		public ccc(String a, double d){}
+ * 	==> a = > aaa, b => bbb, c => ccc 호출
+ *  => char input
+ *  
+ *  
+ *  //자동호출이 되지 않기 떄문에 조건문을 주고 불러준다.  자동호출시 매개변수를 어노테이션을 통해서 해결해주어야 한다. 
+ *  A aa=new A();
+ *  if(input ='a')
+ *  	aa.aaa("",10);
+ *  else if(input=="b")
+ *  	aa.bbb("");
+ *  else if(input=="c")
+ *  	aa.ccc("",10.5);
+ * 
+ * }
+ */
 
 /*@WebServlet("/DispatcherServlet")*/
 public class DispatcherServlet extends HttpServlet {
@@ -46,11 +91,16 @@ public class DispatcherServlet extends HttpServlet {
 				Class clsName = Class.forName(cls);
 				Object obj = clsName.newInstance();		//객체 주소 넘기기 
 				
+				//컨트롤러 어노테이션의 null 값 확인 
+				//Controller con = (Controller)clsName.getAnnotation(Controller.class);
+				
+				if(clsName.isAnnotationPresent(Controller.class)==false) //어노테이션이 존재하지않으면 pass
+					continue;
 				System.out.println("id="+id);
 				System.out.println("model="+obj);
 
 				clsMap.put(id, obj);
-				
+				//continue로 제외
 			}
 			//객체 생성한후 반복 사용(싱글톤)
 		} catch (Exception e) {	}

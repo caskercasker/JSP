@@ -17,7 +17,7 @@
       <a class="navbar-brand" href="#">Movie Center</a>
     </div>
     <ul class="nav navbar-nav">
-      <li class="active"><a href="home.do">Home</a></li>
+      <li class="active"><a href="../main/home.do">Home</a></li>
       <li><a href="../member/join.do">회원가입</a></li>
       <li><a href="../movie/movie.do">영화</a></li>
       <li><a href="../movie/reserve.do">영화예매</a></li>
