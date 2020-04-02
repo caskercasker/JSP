@@ -110,10 +110,22 @@ private static SqlSessionFactory ssf;
 		session.close();
 	}
 	
-	public static void boardUpdate(BoardVO vo){
-		SqlSession session = ssf.openSession();
-		session.update("boardUpdate",vo);
-		session.commit();
+	public static BoardVO boardUpdate(int no)
+	{
+		BoardVO vo=new BoardVO();
+		SqlSession session=ssf.openSession(true);
+		
+		vo=session.selectOne("boardUpdate",no);
+		
+		session.close();
+		return vo;
+	}
+	
+	// 글 내용 수정해서 update 시킬 때 
+	public static void boardUpdateData(BoardVO vo)
+	{
+		SqlSession session=ssf.openSession(true);  //.oepnSession(true): setAutoCommit(true)해준다. 
+		session.update("boardUpdateData",vo); 
 		session.close();
 	}
 }

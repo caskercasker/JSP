@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 
+	SELECT empno,ename,hiredate,dname,loc
+	FROM emp,dept
+	WHERE emp.deptno = dept.deptno
+	
+	while(rs.next()){
+		EmpVO vo = new EmpVO()
+		vo.setEmpno(rs.getInt("empno"));  // 해당컬럼 이름으로 매핑 
+		vo.setEname(rs.getString("ename"));
+		vo.setHiredate(rs.getDate("hiredate"));
+		
+		vo.setDname(rs.getString("dname"));   ==> vo.getDvo().setDname(rs.getString("dname"))
+		vo.setLoc(rs.getString("loc"));			=> vo.getDvo().setLoc(rs.getString("loc"))
+		
+		//두개의vo가 분리 되어 있다면.... 처리하는 방식 Mybatis 에서....
+		
+		
+		구현방법
+		Class clsname = Class.forname("com.sist.dao.EmpVo");
+		Object obj = clsname.newinstance();
+		Method[] methods = clsName.getDeclaredMethod()
+		for(Method m:methods)
+		{
+			String name = m.getName();
+			if(name.equals("set"+property)
+				m.invoke(obj,parameter);
+		}
+	}
+	변수명으로 구분 되어 지기 때문에 
+	
+	메소드를 찾아오는 방식 
+	Spring에서도 AOP method 찾는법
+	XML expression 에서 찾는 법
+	@annotaion (메소드 경로를 expression으로 설정해 놓는 법) 
+	
+	!! mybatis 설정에서는 DB의 Column 값을 인식해서 매핑한다는 것을 기억 따라서 명칭이 매우 중요함. 
+	VO에 없는 값들은 as(alias,dialect) 설정을 통해서 Column이름에 값을 채워 넣을수는 있음. 
+	
+	ex> to_char(Hiredate,"yyy-mm-dd") as dbday 컬럼을 바꿨지만
+	result map 에 값을 설정 해주어야 한다. 
+	  
+ -->
+<mapper namespace="com.sist.dao.emp-mapper">
+	 <resultMap type="EmpVO" id="empMap">	
+		 	<result column="empno" property="empno"/>
+		 	<!-- vo.setEmpno(rs.getInt("empno")); -->
+		 	<result column="ename" property="ename"/>
+		 	<result column="job" property="job"/>
+		 	<result column="mgr" property="mgr"/>
+			<result column="hiredate" property="hiredate"/>
+			<result column="sal" property="sal"/>
+			<result column="comm" property="comm"/>
+			<result column="deptno" property="deptno"/>
+			
+			<result column="dname" property="dvo.dname"/>
+			<result column="loc" property="dvo.loc"/>
+	 </resultMap>
+	<select id="empAllData" resultMap="empMap">
+		SELECT empno,ename,job,hiredate,sal,dname,loc
+		FROM emp,dept
+		WHERE emp.deptno=dept.deptno
+	</select>
+</mapper>

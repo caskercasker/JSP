@@ -23,7 +23,9 @@ import org.xml.sax.helpers.DefaultHandler;
  *		//한줄을 읽을때 마다 메소드 호출 처리
  *		
  */
+
 public class XMLParser extends DefaultHandler{
+
 	private List<String> list = new ArrayList<String>();
 
 	@Override

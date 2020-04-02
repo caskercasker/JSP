@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sist.dao.board-mapper">
+	<!-- 
+		목록
+			public boardVO vo = new boardVO();
+				vo.boardListData(Map map)
+			
+			public int = dao.movieTotalPage()
+			
+			resultType = "int"
+			
+			참조로 연결 하기 때문에 (생성하고 관리) 데이터 타입으로 접근 혹은 class이름으로 접근 가능)
+			
+			Map map = new HashMap();
+			map.put("start", 1);
+			map.put("end", 10);
+			
+			
+			해당 DAO 에서 ps.setInt 된 것을 
+			map.get("start")
+			map.get("end) 형태로 받아온다. 
+			
+			#{start}	==> map.get("start")
+			#{end}		==> map.get("end")
+			===== key
+			
+			{}get method 호출 request의 경우에도 사용할때 객체가 자동으로 생성된것을 HTML 에서ㅓ 볼 때 활용 할수 있었슴. 
+			public List<BoardVO> boardListData(Map map)
+				=> selectList()   ==> DAO list 를 보낸다. 
+	 -->
+	<select id="boardListData" resultType="BoardVO" parameterType="java.util.Map">
+	<!--  VO에 "없는" 매개변수일 경우 Map을 활용한다.  -->
+		SELECT no,subject,name,regdate,hit,TO_CHAR(regdate,'YYYY-MM-DD') as dbday,num
+		FROM (SELECT no,subject,name,regdate,hit,rownum as num
+		FROM (SELECT no,subject,name,regdate,hit FROM board ORDER BY no DESC))
+		WHERE num BETWEEN #{start} and #{end}
+	</select>
+
+	<!-- 
+		public BoardVO boardDetailData(int no){
+		
+		}
+		Map map = new HashMap();
+		ma.put("boardDetailData","SELECT * FROM board WHERE no=#{no})
+		==> select one
+	 -->
+
+	<select id="boardTotalPage" resultType="int">
+		SELECT CEIL(COUNT(*)/10.0) FROM board
+	</select>
+
+	 <!-- 	 반복되는 SQL문을 작성  -->
+	 <sql id="where-no">
+	 	WHERE no=#{no}
+	 </sql>
+	<select id="boardDetailData" resultType="BoardVO" parameterType="int">
+		SELECT * FROM board 
+		<include refid="where-no"/>
+	</select>
+	<update id="hitIncrement" parameterType="int">
+		UPDATE board SET
+		hit=hit+1
+		<include refid="where-no"/>
+	</update>
+	
+	<insert id="boardInsert" parameterType="BoardVO">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			SELECT NVL(MAX(no)+1,1) as no FROM board
+		</selectKey>	
+		<!-- 
+			alias 함수명을 기준으로 실행 된 것들이 COlumn 명으로 100퍼센트 일치 되지 않기 때문에 
+			reg.getInt(1) => rs.getInt("column명")
+			값을 받는 순서는 상관 없고 일치하는 변수명에다가 값을 넣는다.
+		 -->
+		 INSERT INTO board VALUES(#{no},#{name},#{subject},#{content},#{pwd},SYSDATE,0)
+	</insert>
+	
+	<update id="boardUpdateData" parameterType="BoardVO">
+		UPDATE board SET 
+		name=#{name},subject=#{subject},content=#{content},pwd=#{pwd}
+		<include refid="where-no"/>
+	</update>
+	<select id="boardUpdate" resultType="boardVO" parameterType="int">
+ 		SELECT * FROM board
+ 		WHERE no=#{no}
+ 	</select>
+	<!-- 
+		public void boardInsert(boardVO vo){
+		
+		}
+	 -->
+	<!-- <update id="boardUpdate" parameterType="BoardVO"></update>
+	 --><!-- 
+	
+	 -->
+	<!-- <delete id="boardDelte" parameterType="int"></delete> -->
+
+</mapper>
