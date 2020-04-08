@@ -16,10 +16,13 @@
 Shadowbox.init({
 	players:['iframe'] 	//inline frame  현재 문서 안에 다른 html 페이지를 삽입할때 구분
 });
+var i=0;
+var p=0;
 $(function(){
 	// onclick = "함수명"
 	/*
 		태그로 제어 : CSS제어, 이벤트 발생 	
+							====== 중심으로 설정
 	*/
 	$('#postBtn').click(function(){
 		Shadowbox.open({
@@ -29,6 +32,30 @@ $(function(){
 			width:520,
 			height:350
 		})
+		p=1;
+	});
+	$('#idcheckBtn').click(function(){
+		Shadowbox.open({
+			content:'../member/idcheck.do',
+			title:'아이디 중복 체크',
+			player:'iframe',
+			width:400,
+			height:250
+		})
+		i=1;
+	})
+	$('#sendBtn').click(function(){
+		if(i==0){
+			alert("아이디가 중복체크를 하세요");
+		}
+		else {
+			if($('#pwd').val()!=('#pwd1').val()){
+				alert("비밀번호가 틀립니다.!!")
+			}
+			else if(p==0){
+				alert("우편번호를 입력하세요");
+			}
+		}
 	})
 })
 </script>
@@ -60,31 +87,30 @@ CONTENT  NOT NULL CLOB
 REGDATE           DATE          
 ADMIN             CHAR(1)
  -->
-
 <body>
 	<div class="container">
 		<h1 class="text-center">회원가입</h1>
 		<div class="row">
-			<form name="frm" action="join_ok.jsp" method="post">
+			<form name="frm" action="../member/join_ok.do" method="post" id="frm">
 				<table class="table table-hover">
 					<tr>
 						<th width=15% class="danger text-right">ID</th>
 						<td width=85%>
-							<input type="text" name=id size=15 class="input-sm" readonly>
-							<input type="button" value="중복체크" class="btn btn-sm btn-warning">
+							<input type="text" name=id size=15 class="input-sm" readonly id="id">
+							<input type="button" value="중복체크" class="btn btn-sm btn-warning" id="idcheckBtn">
 						</td>
 					</tr>
 					<tr>
 						<th width=15% class="danger text-right">비밀번호</th>
 						<td width=85%>
-							<input type="password" name=pwd size=15 class="input-sm">&nbsp;
-							재입력:<input type="password" name=pwd1 size=15 class="input-sm">
+							<input type="password" name=pwd size=15 class="input-sm" id="pwd" required>&nbsp;
+							재입력:<input type="password" name=pwd1 size=15 class="input-sm" id="pwd1" required>
 						</td>
 					</tr>
 					<tr>
 						<th width=15% class="danger text-right">이름</th>
 						<td width=85%>
-							<input type="text" name=name size=15 class="input-sm">
+							<input type="text" name=name size=15 class="input-sm" required>
 						</td>
 					</tr>
 					<tr>
@@ -103,14 +129,14 @@ ADMIN             CHAR(1)
 					<tr>
 						<th width=15% class="danger text-right">생일</th>
 						<td width=85%>
-							<input type=date name=birthday size=50 class="input-sm">
+							<input type=date name=birthday size=50 class="input-sm" required>
 						</td>
 					</tr>
 					<tr>
 						<th width=15% class="danger text-right">우편번호</th>
 						<td width=85%>
-							<input type="text" name=post1 size=5 class="input-sm" readonly>-
-							<input type="text" name=post2 size=5 class="input-sm" readonly>
+							<input type="text" name=post1 size=5 class="input-sm" readonly required>-
+							<input type="text" name=post2 size=5 class="input-sm" readonly required>
 							<input type="button" class="btn btn-sm btn-primary" value="우편번호 검색" id="postBtn">
 						</td>
 					</tr>
@@ -118,7 +144,7 @@ ADMIN             CHAR(1)
 					<tr>
 						<th width=15% class="danger text-right">주소</th>
 						<td width=85%>
-							<input type="text" name=addr1 size=50 class="input-sm" readonly>
+							<input type="text" name=addr1 size=50 class="input-sm" readonly required>
 						</td>
 					</tr>
 					
@@ -151,7 +177,7 @@ ADMIN             CHAR(1)
 					
 					<tr>
 						<td colspan="2" class="text-center">
-							<input type=button value="회원가입" class="btn btn-sm btn-success" onclick="join()"> 
+							<input type=submit value="회원가입" class="btn btn-sm btn-success" id="sendBtn"> 
 							<input type=button value="취소" class="btn btn-sm btn-danger" onclick="javascript:history.back()"> 
 						</td>
 					</tr>

@@ -41,4 +41,14 @@
  	<select id="chefTotalPage" resultType="int">
 		SELECT CEIL(COUNT(*)/30.0) FROM chef
 	</select>
-</mapper>	
+	<select id="recipeDetailData" resultType="RecipeDetailVO" parameterType="int">
+		SELECT *
+		FROM recipe_detail
+		WHERE no=#{no}
+	</select>
+	<select id="recipeCount2" resultType="int" parameterType="int">
+		SELECT COUNT(*)
+		FROM recipe_detail
+		WHERE no=#{no}
+	</select>
+ </mapper>	

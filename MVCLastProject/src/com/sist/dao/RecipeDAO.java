@@ -4,6 +4,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
 import com.sist.vo.ChefVO;
+import com.sist.vo.RecipeDetailVO;
 import com.sist.vo.RecipeVO;
 
 import java.util.*;
@@ -79,5 +80,36 @@ public class RecipeDAO {
 		}
 		return total;
 	}
-
+	public static RecipeDetailVO recipeDetailData(int no){
+		RecipeDetailVO vo = new RecipeDetailVO();
+		SqlSession session=null;
+		try {
+			session = ssf.openSession();
+			vo = session.selectOne("recipeDetailData",no);			
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+		}finally{
+			if(session!=null){
+				session.close();
+			}
+		}
+		return vo;
+	}
+	
+	public static int recipeCount(int no){
+		SqlSession session = null;
+		int total = 0;
+		try {
+			session = ssf.openSession();
+			total = session.selectOne("recipeCount2",no);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+		}finally{
+			if(session!=null)
+				session.close();
+		}
+		return total;
+	}
 }

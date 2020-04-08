@@ -37,4 +37,5 @@ public class MemberVO {
 	private String content;
 	private Date date;
 	private String admin;
+	private String msg;
 }

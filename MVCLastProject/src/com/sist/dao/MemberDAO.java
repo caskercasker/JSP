@@ -27,4 +27,64 @@ public class MemberDAO {
 		
 		return list;
 	}
+	public static int idcheckData(String id){
+		int count=0;
+		SqlSession session = null;
+		
+		try{
+			//session 생성 => Connection 객체 
+			session = ssf.openSession();
+			count = session.selectOne("idcheckData",id);
+		}catch(Exception ex){
+			System.out.println(ex.getMessage());
+		}
+		finally
+		{
+			if(session!=null)
+				session.close();
+		}
+		
+		return count;
+	}
+	public static void memberInsert(MemberVO vo){
+		SqlSession session=null;
+		try {
+			session=ssf.openSession(true);
+			session.insert("memberInsert",vo);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+		}finally{
+			if(session!=null)
+				session.close();
+		}
+	}
+	public static MemberVO memberLogin(String id, String pwd){
+		MemberVO vo = new MemberVO();
+		SqlSession session=null;
+		try {
+			session = ssf.openSession();
+			int count = session.selectOne("idCount",id);
+			if(count==0){
+				vo.setMsg("NOID");
+			}else{
+				MemberVO mvo = session.selectOne("getPwd",id);
+				if(pwd.equals(mvo.getPwd())){
+					vo.setMsg("OK");
+					vo.setAdmin(mvo.getAdmin());
+					vo.setName(mvo.getName());
+				}else{
+					vo.setMsg("NOPWD");
+				}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+		}finally{
+			if(session!=null)
+				session.close();
+		}
+		return vo;
+	}
 }

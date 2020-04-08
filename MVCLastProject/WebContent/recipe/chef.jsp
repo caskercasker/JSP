@@ -7,6 +7,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<link href="../main/layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
+ 
 <style type="text/css">
 .table,td {
 	background-color:white;
@@ -51,27 +53,28 @@
     			</tr>
     		</table>
     	</div>
+    </div>
           <!-- ################################################################################################ -->
-    	 <div class="row text-center">
-    		<ul class="pagination">
-    		  <c:if test="${startPage>1 }">
-			  <li><a href="../recipe/chef.do?page=${startPage-1}">&lt;</a></li>
-			  </c:if>
-				<c:set var="type" value=""/>
-				<c:forEach var="i" begin="${startPage }" end="${endPage }">
-					<c:if test="${curpage==i }">
-						<c:set var="type" value="class=active"/>
-					</c:if>
-					<c:if test="${curpage!=i }">
-						<c:set var="type" value=""/>
-					</c:if>
-				  <li ${type }><a href="../recipe/chef.do?page=${i}">${i}</a></li>
-				</c:forEach>
-				 <c:if test="${endPage<allPage}">
-			  		<li><a href="../recipe/chef.do?page=${endPage+1 }">&gt;</a></li>
-				 </c:if>
-			</ul>
- 		</div>
+   <div class="text-center">
+       <ul class="pagination">
+          <c:if test="${startPage>1 }">
+            <li><a href="../recipe/chef.do?page=${startPage-1 }">&lt;</a></li>
+          </c:if>
+          <c:set var="type" value=""/>
+          <c:forEach var="i" begin="${startPage }" end="${endPage }">
+            <c:if test="${curpage==i }">
+              <c:set var="type" value="class=active"/>
+            </c:if>
+            <c:if test="${curpage!=i }">
+              <c:set var="type" value=""/>
+            </c:if>
+            <li ${type }><a href="../recipe/chef.do?page=${i}">${i}</a></li>
+          </c:forEach>
+          <c:if test="${endPage<allPage }">
+		   <li><a href="../recipe/chef.do?page=${endPage+1 }">&gt;</a></li>
+		  </c:if>
+		</ul>
+    </div>
     </div>
   </div>
 </body>
