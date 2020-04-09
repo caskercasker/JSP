@@ -96,7 +96,7 @@ $(function () {
             <li><a class="drop" href="#">쉐프</a>
               <ul>
                 <li><a href="../recipe/chef.do">쉐프목록</a></li>
-                <li><a href="#">레시피 찾기</a></li>
+                <li><a href="../recipe/recipe_find.do">레시피 찾기</a></li>
               </ul>
             </li>
           </ul>
