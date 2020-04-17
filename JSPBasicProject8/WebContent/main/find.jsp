@@ -34,7 +34,7 @@
 				for(MovieBean mb:list){
 			%>
 				<tr>
-					<td><img src="<%=mb.getPoster() %>" width=30 height30></td>
+					<td><img src="<%=mb.getPoster() %>" width=30 height=30></td>
 					<td><%=mb.getTitle() %></td>
 					<td><%=mb.getGenre() %></td>
 				</tr>

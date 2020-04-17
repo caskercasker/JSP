@@ -12,5 +12,4 @@
 		SELECT a,b,c,d, FROM member where id=? AND pwd=?
 		WHERE num BETWEEN ? AND ? 
 	</select>
-	<insert id="" parameterType=""></insert> 	<!-- insert는 return type이 없다.  -->
 </mapper>

@@ -23,9 +23,11 @@ public class MainClass {
 			for(Method mm:m){
 				RequestMapping rm=mm.getDeclaredAnnotation(RequestMapping.class);
 				if(rm.value().equals(str)){
-					mm.invoke(obj, null);
+					mm.invoke(obj, "null");
 				}
 			}
+			
+			scan.close();
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

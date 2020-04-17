@@ -26,6 +26,7 @@
  */
 $(function() {
 	$('#findBtn').click(function(){
+		console.log("10")
 		var dong=$('#dong').val();
 		if(dong.trim()=="")	{
 			$('#dong').focus();

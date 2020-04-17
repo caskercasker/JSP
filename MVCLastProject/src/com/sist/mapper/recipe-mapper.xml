@@ -76,7 +76,9 @@
 		FROM recipe
 		WHERE rownum &lt;=21 
 		<if test="fd!='전체'">
-		AND title LIKE '%'||#{fd}||'%'
+<!-- 		AND title LIKE '%'||#{fd}||'%'
+		면|우동
+ -->	AND REGEXP_LIKE (title,#{fd})
 		</if>
 	</select>
  </mapper>	

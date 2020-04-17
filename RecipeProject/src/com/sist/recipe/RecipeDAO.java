@@ -2,7 +2,6 @@ package com.sist.recipe;
 
 import java.io.*;
 import java.util.*;
-import javax.websocket.Session;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;

@@ -15,14 +15,15 @@ import java.util.*;
 
 @Controller
 public class MemberModel {
+	
 	@RequestMapping("member/join.do")
 	public String member_join(HttpServletRequest request, HttpServletResponse response){
 		request.setAttribute("main_jsp", "../member/join.jsp"); //include
 		return "../main/main.jsp";
 	}
+
 	@RequestMapping("member/postfind.do")
 	public String member_postfind(HttpServletRequest request, HttpServletResponse response){
-//		request.setAttribute(", arg1);
 		return "../member/postfind.jsp";
 	}
 	

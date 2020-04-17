@@ -3,7 +3,7 @@
     
 <%
 	//DAO 에서 값 받기
-	List<MovieVo> list = MovieDAO.movieAllData();
+	List<MovieVO> list = MovieDAO.movieAllData();
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -16,7 +16,7 @@
 		<h1 class="text-center">현재 상영 영화</h1>
 		<div class="row">
 			<%
-				for(MovieVo vo:list){
+				for(MovieVO vo:list){
 					%>
 					
 				<!--  boostarp 값 채워 넣기 

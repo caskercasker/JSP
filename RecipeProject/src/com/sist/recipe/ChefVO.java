@@ -1,6 +1,5 @@
 package com.sist.recipe;
 
-import java.io.Serializable;
 
 public class ChefVO{
     private String poster;

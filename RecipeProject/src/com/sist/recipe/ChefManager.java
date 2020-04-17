@@ -2,18 +2,16 @@ package com.sist.recipe;
 
 import java.util.ArrayList;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
+
 /*
  *  <div class="list_mem3">
                 <a href="/profile/index.html?uid=43861990" class="mem_pic"><img src="http://recipe1.ezmember.co.kr/cache/rpf/2015/07/28/9b9a28484d3ed1fa63ca699aaba60d781.jpg" ></a>
             </div>
             <div class="list_cont4"><b>
                 <a href="/profile/index.html?uid=43861990" id="folFriend_43861990" class="info_name_f">
-                    ³»Á¶ÀÇ¿©¿Õ´×´×                </a>
+                    ï¿½ï¿½ï¿½ï¿½ï¿½Ç¿ï¿½ï¿½Õ´×´ï¿½                </a>
                     <button type="button" class="btn btn-default btn-sm" id="btnActFriend_43861990" fact="insert" onClick="doActFriend('43861990')">
-                        <span class="glyphicon glyphicon-plus"></span>¼Ò½Ä¹Þ±â                    </button>
+                        <span class="glyphicon glyphicon-plus"></span>ï¿½Ò½Ä¹Þ±ï¿½                    </button>
                 </b>
                 <span class="mem_cont1">0</span><span class="mem_cont3">0</span><span class="mem_cont7">0</span><span class="mem_cont2">2</span>
             </div>
@@ -37,7 +35,7 @@ public class ChefManager {
     		ois.close();
     	}catch(Exception ex) {}
     }
-    //  ¸ñ·ÏÃâ·Â 
+    //  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
     public ArrayList<ChefVO> chefListData(int page)
     {
     	ArrayList<ChefVO> list=
@@ -79,7 +77,7 @@ public class ChefManager {
 			oos.close();
 		}catch(Exception ex) {}
 		
-		System.out.println("ÀúÀå ¿Ï·á");
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½");
 
 	}
 	public ArrayList<ChefVO> chefAllData()

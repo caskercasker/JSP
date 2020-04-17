@@ -15,7 +15,7 @@ public class RecipeDAO {
 	static {
 		ssf=CreateSqlSessionFactory.getSsf();
 	}
-	public static List<RecipeVO> recipeListData(Map map){
+	public static List<RecipeVO> recipeListData(Map<?, ?> map){
 		SqlSession session = null;
 		List<RecipeVO> list = new ArrayList<RecipeVO>();
 		try {
@@ -48,7 +48,7 @@ public class RecipeDAO {
 		return total;
 	}
 	
-	public static List<ChefVO> chefListData(Map map){
+	public static List<ChefVO> chefListData(Map<?, ?> map){
 		SqlSession session = null;
 		List<ChefVO> list = new ArrayList<ChefVO>();
 		try {
@@ -112,7 +112,7 @@ public class RecipeDAO {
 		}
 		return total;
 	}
-	public static List<RecipeVO> chefDetailData(Map map){
+	public static List<RecipeVO> chefDetailData(Map<?, ?> map){
 		SqlSession session = null;
 		List<RecipeVO> list = new ArrayList<RecipeVO>();
 		try {
@@ -150,7 +150,7 @@ public class RecipeDAO {
 		List<RecipeVO> list = new ArrayList<RecipeVO>();
 		try {
 			session = ssf.openSession();
-			Map map = new HashMap();
+			Map<String, String> map = new HashMap();
 			map.put("fd", fd);
 			list = session.selectList("recipeFindData", map);
 		} catch (Exception e) {

@@ -2,8 +2,6 @@ package com.sist.dao;
 import java.io.*;
 import java.util.*;
 
-import javax.annotation.Resource;
-
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;

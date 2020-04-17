@@ -27,7 +27,7 @@ public class RecipeModel {
 		int end = rowSize*curpage;
 		
 		//Map
-		Map map = new HashMap();
+		Map<String, Integer> map = new HashMap<String, Integer>();
 		map.put("start", start);
 		map.put("end", end);
 		
@@ -77,7 +77,7 @@ public class RecipeModel {
 		int end = rowSize*curpage;
 		
 		//Map
-		Map map = new HashMap();
+		Map<String, Integer> map = new HashMap<String, Integer>();
 		map.put("start", start);
 		map.put("end", end);
 		
@@ -194,7 +194,7 @@ public class RecipeModel {
 		};
 
 		String no = request.getParameter("no");
-		List<RecipeVO> list = RecipeDAO.recipeFindData(data[Integer.parseInt(no)-1]);
+		List<RecipeVO> list = RecipeDAO.recipeFindData(data[Integer.parseInt(no)-1].replace("/","|"));
 		for(RecipeVO vo :list){
 			String title = vo.getTitle();
 			if(title.length()>6){

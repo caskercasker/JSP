@@ -39,7 +39,7 @@
  			typeAlias* (nullable option)
  					+ (at least 1 must be exist, not a null)
  		-->
- 		<typeAlias type="com.sist.dao.MovieVo" alias="MovieVO"/>
+ 		<typeAlias type="com.sist.dao.MovieVO" alias="MovieVO"/>
  		<typeAlias type="com.sist.dao.MusicVO" alias="MusicVO"/>
  	</typeAliases>
  	<environments default="development">

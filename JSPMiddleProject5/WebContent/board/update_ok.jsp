@@ -2,6 +2,6 @@
     pageEncoding="UTF-8" import="com.sist.model.*"%>
 <%
 	BoardModel model = new BoardModel();
-	model.boardUpdate(request, response);
+	model.boardUpdateData(request, response);
 /* 	response.sendRedirect("list.jsp"); */
 %>

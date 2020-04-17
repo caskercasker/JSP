@@ -34,10 +34,10 @@ if(strPage==null){
 		  <div class="col-md-4">
 		    <div class="thumbnail">
 		      <a href="#">
-		        <img src="<%=mb.getPoster() %>" alt="Lights" style="width:100%">
-		        <div class="caption">
-		          <p><%=mb.getTitle() %></p>
-		        </div>
+		        <img src="<%=mb.getPoster() %>" alt="Lights" style="width:100%"/>
+		        <span class="caption">
+		          <%=mb.getTitle() %>
+		        </span>
 		      </a>
 		    </div>
 		  </div>
