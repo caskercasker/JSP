@@ -9,6 +9,7 @@ import com.sist.controller.RequestMapping;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import com.sist.dao.*;
+import com.sist.vo.BoardReplyVO;
 import com.sist.vo.BoardVO;
 
 /*							Model => DAO,Service,VO
@@ -79,15 +80,39 @@ public class FreeBoardModel {
 				
 		return "redirect:../freeboard/list.do";
 	}
+
 	
+	//################################################################################################ 댓글 프로시저  실행 (추가)
+	//상세보기
 	@RequestMapping("freeboard/detail.do")
 	public String freeboard_detail(HttpServletRequest request, HttpServletResponse response){
+		
 		String no = request.getParameter("no");
-		//no를 주고 vo를 받는다.
+		//* 추가
+		String page = request.getParameter("page");
+		if(page==null)
+			page="1";
+		int curpage = Integer.parseInt(page);
+		int rowSize=10;
+		int start=(curpage*rowSize)-(rowSize-1);
+		int end = curpage*rowSize;
+		
+		Map map=new HashMap<>();
+		map.put("pStart", start);
+		map.put("pEnd",end);
+		map.put("pBno", Integer.parseInt(no));
+		List<BoardReplyVO> list = FreeBoardReplyDAO.replyBoardListData(map);
+		
+		map = new HashMap<>();
+		map.put("pBno", Integer.parseInt(no));
+		int totalpage = FreeBoardReplyDAO.replyBoardTotalPage(map);
+		request.setAttribute("list",list);
+		request.setAttribute("curpage", curpage);
+		request.setAttribute("totalpage", totalpage);
+		
+		//추가 end
 		FreeBoardDAO dao = new FreeBoardDAO();
-		//vo를 받아온다
 		BoardVO vo = dao.freeboardInfoData(Integer.parseInt(no), 1);
-		//jsp로 보내준다. 
 		request.setAttribute("vo", vo);
 		request.setAttribute("main_jsp", "../freeboard/detail.jsp");
 		return "../main/main.jsp";

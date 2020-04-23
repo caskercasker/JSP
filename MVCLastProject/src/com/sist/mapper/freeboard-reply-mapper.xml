@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sist.mapper.freeboard-reply-mapper">
+
+
+	<!-- CURSOR 설정 resultMap -->
+ 	<resultMap type="BoardReplyVO" id="boardReplyMap">
+		<result property="no" column="no"/>
+		<result property="bno" column="bno"/>
+		<result property="id" column="id"/>
+		<result property="name" column="name"/>
+		<result property="msg" column="msg"/>
+		<result property="regdate" column="regdate"/>
+		<result property="dbday" column="dbday"/>
+		<result property="group_id" column="group_id"/>
+		<result property="group_step" column="group_step"/>
+		<result property="group_tab" column="group_tab"/>
+		<result property="root" column="root"/>
+		<result property="depth" column="depth"/>
+	</resultMap> 
+
+	<parameterMap type="hashmap" id="replyListDataMap">
+		<parameter property="pStart" javaType="java.lang.Integer" jdbcType="INTEGER" mode="IN"/>
+		<parameter property="pEnd" javaType="java.lang.Integer" jdbcType="INTEGER" mode="IN"/>
+		<parameter property="pBno" javaType="java.lang.Integer" jdbcType="INTEGER" mode="IN"/>
+		<parameter property="pResult" jdbcType="CURSOR" mode="OUT" resultMap="boardReplyMap"/>
+	</parameterMap>
+
+<!--  resultMap="boardReplyMap"-->
+	
+	<select id="replyBoardListData" parameterMap="replyListDataMap" statementType="CALLABLE">
+		{CALL replyListData(?,?,?,?)}
+	</select>
+
+
+	 <parameterMap type="hashmap" id="replyInsertMap">
+	 	<parameter property="pBno" javaType="java.lang.Integer" jdbcType="INTEGER" mode="IN" />
+	 	<parameter property="pId" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	 	<parameter property="pName" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	 	<parameter property="pMsg" javaType="java.lang.String" jdbcType="CLOB" mode="IN" />
+	 </parameterMap>
+	 <select id="replyBoardInsert" parameterMap="replyInsertMap" statementType="CALLABLE">
+	 	{CALL replyInsert(?,?,?,?)}
+	 </select>
+	 
+	 <!-- CREATE OR REPLACE PROCEDURE replyTotalPage(
+		    pBno freeboard_reply.bno%TYPE,
+		    pTotal OUT NUMBER
+		) -->
+	 
+	 <parameterMap type="hashmap" id="replyTotalMap">
+	 	<parameter property="pBno" javaType="java.lang.Integer" jdbcType="INTEGER" mode="IN"/>
+	 	<parameter property="pTotal" javaType="java.lang.Integer" jdbcType="INTEGER" mode="OUT"/>
+	 </parameterMap>
+	 
+	 <select id="replyBoardTotalPage" parameterMap="replyTotalMap" statementType="CALLABLE">
+	 	{CALL replyTotalPage(?,?)}
+	 </select>
+</mapper>

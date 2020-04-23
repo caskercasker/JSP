@@ -15,6 +15,7 @@
  		<typeAlias type="com.sist.vo.ZipcodeVO" alias="ZipcodeVO"/>
  		<typeAlias type="com.sist.vo.BoardVO" alias="BoardVO"/>
  		<typeAlias type="com.sist.vo.ReplyVO" alias="ReplyVO"/>
+ 		<typeAlias type="com.sist.vo.BoardReplyVO" alias="BoardReplyVO"/>
   </typeAliases>
 	<environments default="development">
 		<environment id="development">
@@ -48,6 +49,7 @@
 		<mapper resource="com/sist/mapper/main-mapper.xml"/>
 		<mapper resource="com/sist/mapper/member-mapper.xml"/>
 		<mapper resource="com/sist/mapper/reply-mapper.xml"/>
+		<mapper resource="com/sist/mapper/freeboard-reply-mapper.xml"/>
 		<!-- mapper 는 * 표시 이므로 개체 생성에 제한이 없다.  -->
 	</mappers>
 </configuration>
