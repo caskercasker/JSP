@@ -56,4 +56,33 @@
 	 <select id="replyBoardTotalPage" parameterMap="replyTotalMap" statementType="CALLABLE">
 	 	{CALL replyTotalPage(?,?)}
 	 </select>
+	 
+	 <!-- 댓글 "메시지" 업데이트  -->
+	 <parameterMap type="hashmap" id="replyUpdateMap">
+	 	<parameter property="pNo" javaType="java.lang.Integer" jdbcType="INTEGER" mode="IN"/>
+	 	<parameter property="pMsg" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN"/>
+	 </parameterMap>
+	 <select id="replyUpdate2" parameterMap="replyUpdateMap" statementType="CALLABLE">
+	 	{CALL replyUpdate(?,?)}	 
+	 </select>	 
+	 
+	 <parameterMap type="hashmap" id="replyReplyInsertMap">
+	 	<parameter property="pBno" javaType="java.lang.Integer" jdbcType="INTEGER" mode="IN" />
+	 	<parameter property="pPno" javaType="java.lang.Integer" jdbcType="INTEGER" mode="IN" />
+	 	<parameter property="pId" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	 	<parameter property="pName" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	 	<parameter property="pMsg" javaType="java.lang.String" jdbcType="CLOB" mode="IN" />
+	 </parameterMap>
+	 
+	 <select id="replyReplyInsert2" parameterMap="replyReplyInsertMap" statementType="CALLABLE">
+	 	{CALL replyReplyInsert(?,?,?,?,?)}
+	 </select>
+
+
+	 <parameterMap type="hashmap" id="replyDeleteMap">
+	 	<parameter property="pNo" javaType="java.lang.Integer" jdbcType="INTEGER" mode="IN"/>
+	 </parameterMap>
+	 <select id="replyDelete2" parameterMap="replyDeleteMap" statementType="CALLABLE">
+	 	{CALL replyDelete(?)}	 
+	 </select>
 </mapper>

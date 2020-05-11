@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+<!--
+ (typeAliases?, environments?, mappers?)
+  xml의 실행순서는 반드시 지켜야 한다. 
+  -->
+  <typeAliases>
+  		<typeAlias type="com.sist.dao.MovieVO" alias="MovieVO"/>
+ 		<typeAlias type="com.sist.dao.ReserveTheaterVO" alias="ReserveTheaterVO"/>	
+ 		<typeAlias type="com.sist.dao.ReserveTimeVO" alias="ReserveTimeVO"/>
+ 		<typeAlias type="com.sist.dao.ReserveDateVO" alias="ReserveDateVO"/>
+ 		<typeAlias type="com.sist.dao.ReserveVO" alias="ReserveVO"/>
+ 		<typeAlias type="com.sist.dao.MemberVO" alias="MemberVO"/>
+ 		
+  </typeAliases>
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC">
+			</transactionManager><!-- commit,rollback -->
+					
+			<dataSource type="POOLED">  <!-- 오라클 정보 -->
+			<!-- 
+				PooledDataSource p = new PooledDataSource();
+				p.setDriver(value값) 
+				
+				getConnection(p.getUrl(),p.getUsername(),p.getPassword()), disConnection()				
+				-->
+				<property name="driver" value="oracle.jdbc.driver.OracleDriver"/>
+				<property name="url" value="jdbc:oracle:thin:@localhost:1521:XE"/>
+				<property name="username" value="hr"/>
+				<property name="password" value="happy"/>
+			</dataSource>
+		</environment>
+	</environments>
+	<!-- 
+		<!ENTITY nbsp ' '>
+		=> &nbsp; 
+		
+		<!ENTITY mapper 'board-mapper.xml'>
+	 	=> &mapper; => include
+	 	
+	 -->
+	<mappers>
+		<mapper resource="com/sist/dao/reserve-mapper.xml"/>
+		<!-- mapper 는 * 표시 이므로 개체 생성에 제한이 없다.  -->
+	</mappers>
+</configuration>

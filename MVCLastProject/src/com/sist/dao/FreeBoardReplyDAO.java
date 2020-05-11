@@ -55,7 +55,7 @@ public class FreeBoardReplyDAO {
 		SqlSession session=null;
 		try {
 			session = ssf.openSession();
-			session.update("replyInsert",map);
+			session.update("replyBoardInsert",map);
 			
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -82,5 +82,51 @@ public class FreeBoardReplyDAO {
 				session.close();
 		}
 		return total;
+	}
+	public static void replyUpdate(Map map){
+		
+		SqlSession session=null;
+		try {
+			session = ssf.openSession();
+			session.update("replyUpdate2",map);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}finally{
+			if(session!=null)
+				session.close();
+		}
+	}
+	
+	public static void replyReplyInsert (Map map){
+		
+		SqlSession session=null;
+		try {
+			session = ssf.openSession();
+			session.update("replyReplyInsert2",map);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}finally{
+			if(session!=null)
+				session.close();
+		}
+	}
+	public static void replyDelete (Map map){
+		
+		SqlSession session=null;
+		try {
+			session = ssf.openSession();
+			session.update("replyDelete2",map);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}finally{
+			if(session!=null)
+				session.close();
+		}
 	}
 }
